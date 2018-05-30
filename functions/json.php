@@ -62,19 +62,19 @@ function check_json($host,$ip,$port,$fastcheck=0) {
         }
         // certificate transparency
         $data["certificate_transparency"] = [];
-        if($fastcheck == 0) {
-          foreach ($ct_urls as $ct_url) {
-            $submitToCT = submitCertToCT($data["chain"], $ct_url);
-            $ct_result = json_decode($submitToCT, TRUE);
-            if ($ct_result === null
-              && json_last_error() !== JSON_ERROR_NONE) {
-              $result_ct = array('result' => $submitToCT);
-              $data["certificate_transparency"][$ct_url] = $result_ct;
-            } else {
-             $data["certificate_transparency"][$ct_url] = $ct_result;
-            }
-          }
-        }
+//        if($fastcheck == 0) {
+//          foreach ($ct_urls as $ct_url) {
+//            $submitToCT = submitCertToCT($data["chain"], $ct_url);
+//            $ct_result = json_decode($submitToCT, TRUE);
+//            if ($ct_result === null
+//              && json_last_error() !== JSON_ERROR_NONE) {
+//              $result_ct = array('result' => $submitToCT);
+//              $data["certificate_transparency"][$ct_url] = $result_ct;
+//            } else {
+//             $data["certificate_transparency"][$ct_url] = $ct_result;
+//            }
+//          }
+//        }
       } 
     } else {
       $data["error"] = ["Chain too long."];
@@ -84,5 +84,3 @@ function check_json($host,$ip,$port,$fastcheck=0) {
   error_reporting($old_error_reporting);
   return $data;
 }
-
-?>  

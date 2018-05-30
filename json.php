@@ -12,7 +12,7 @@ if ( isset($_GET['host']) && !empty($_GET['host'])) {
   $hostname = mb_strtolower(get($_GET['host']));
   $hostname = parse_hostname($hostname);
   if ($hostname['multiple_ip']) {
-    $data["error"] = ["Host format is incorrect. (use \$host:\$ip.)"];
+	  $hostname['ip'] = $hostname['multiple_ip'][0]['ip'];
   } 
   $host = $hostname['hostname'];
   $ip = $hostname['ip'];
@@ -43,37 +43,13 @@ if(isset($data["data"]["error"])) {
   unset($data["data"]);
 }
 
-if ($_GET["type"] == "pretty") {
-  header('Content-Type: text/html');
-  echo "<pre>";
-  echo htmlspecialchars(json_encode($data,JSON_PRETTY_PRINT));
-  echo "</pre>";
-  ?>
-  <!-- Piwik -->
-  <script type="text/javascript">
-    var _paq = _paq || [];
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//hosted-oswa.org/piwik/";
-      _paq.push(['setTrackerUrl', u+'piwik.php']);
-      _paq.push(['setSiteId', 34]);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <noscript><p><img src="//hosted-oswa.org/piwik/piwik.php?idsite=34" style="border:0;" alt="" /></p></noscript>
-  <!-- End Piwik Code -->
-  <?php
-} else {
   header('Content-Type: application/json');
   echo json_encode($data);
-}
 
 
 if ($write_cache == 1) {
   if (!file_exists($cache_filename)) {
-    file_put_contents($cache_filename, json_encode($data));
+   //file_put_contents($cache_filename, json_encode($data));
   }
 }
 
